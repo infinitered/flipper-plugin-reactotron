@@ -1,5 +1,5 @@
 import { FlipperPlugin } from "flipper";
-import { theme, timelineCommandResolver } from "reactotron-core-ui";
+import { theme, timelineCommandResolver, Header } from "reactotron-core-ui";
 import styled, { ThemeProvider } from "styled-components";
 
 import logo from "./logo";
@@ -20,34 +20,6 @@ const HeaderContainer = styled.div`
   color: ${props => props.theme.foregroundDark};
   box-shadow: 0 0 30px ${props => props.theme.glow};
   height: 70px;
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  width: 100px;
-  align-items: center;
-`;
-const MiddleContainer = styled.div`
-  display: flex;
-  flex: 1;
-  padding-left: 10px;
-  justify-content: center;
-  align-items: center;
-`;
-const RightContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  width: 100px;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const Title = styled.div`
-  color: ${props => props.theme.foregroundLight};
-  text-align: center;
 `;
 
 const TimelineContainer = styled.div`
@@ -87,18 +59,10 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     return (
       <ThemeProvider theme={theme}>
         <Container>
-          <HeaderContainer>
-            <LeftContainer></LeftContainer>
-            <MiddleContainer>
-              <Title>Timeline</Title>
-            </MiddleContainer>
-            <RightContainer></RightContainer>
-          </HeaderContainer>
+          <Header title="Timeline" />
           <TimelineContainer>
             {this.props.persistedState.commands.map(command => {
               const CommandComponent = timelineCommandResolver(command.type);
-
-              console.log(command.date);
 
               if (CommandComponent) {
                 return <CommandComponent command={command} />;
