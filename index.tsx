@@ -7,6 +7,7 @@ import {
   repairSerialization
 } from "reactotron-core-ui";
 import styled, { ThemeProvider } from "styled-components";
+import { MdDeleteSweep } from "react-icons/md";
 
 import logo from "./logo";
 import logo2 from "./logo2";
@@ -65,7 +66,18 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     return (
       <ThemeProvider theme={theme}>
         <Container>
-          <Header title="Timeline" />
+          <Header
+            title="Timeline"
+            actions={[
+              {
+                tip: "Clear",
+                icon: MdDeleteSweep,
+                onClick: () => {
+                  this.props.setPersistedState({ commands: [] });
+                }
+              }
+            ]}
+          />
           <TimelineContainer>
             {this.props.persistedState.commands.map((command, idx) => {
               const CommandComponent = timelineCommandResolver(command.type);
