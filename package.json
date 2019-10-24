@@ -17,10 +17,13 @@
     "react-icons": "^3.7.0",
     "react-json-tree": "^0.11.2",
     "react-tooltip": "^3.11.1",
-    "reactotron-core-ui": "^1.0.0-beta.3",
+    "reactotron-core-ui": "^1.0.0-beta.7",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
     "@types/styled-components": "^4.1.19"
+  },
+  "peerDependencies": {
+    "electron": "^6.0.12"
   }
 }

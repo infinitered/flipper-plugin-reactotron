@@ -1,5 +1,11 @@
+import { clipboard } from "electron";
 import { FlipperPlugin } from "flipper";
-import { theme, timelineCommandResolver, Header } from "reactotron-core-ui";
+import {
+  theme,
+  timelineCommandResolver,
+  Header,
+  repairSerialization
+} from "reactotron-core-ui";
 import styled, { ThemeProvider } from "styled-components";
 
 import logo from "./logo";
@@ -51,7 +57,7 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     data: Object
   ): PersistedState {
     return {
-      commands: [data, ...persistedState.commands]
+      commands: [repairSerialization(data), ...persistedState.commands]
     };
   }
 
@@ -61,11 +67,17 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
         <Container>
           <Header title="Timeline" />
           <TimelineContainer>
-            {this.props.persistedState.commands.map(command => {
+            {this.props.persistedState.commands.map((command, idx) => {
               const CommandComponent = timelineCommandResolver(command.type);
 
               if (CommandComponent) {
-                return <CommandComponent command={command} />;
+                return (
+                  <CommandComponent
+                    key={idx}
+                    command={command}
+                    copyToClipboard={clipboard.writeText}
+                  />
+                );
               }
 
               return null;
