@@ -1016,11 +1016,6 @@ dashify@^2.0.0:
   resolved "https://registry.yarnpkg.com/dashify/-/dashify-2.0.0.tgz#fff270ca2868ca427fee571de35691d6e437a648"
   integrity sha512-hpA5C/YrPjucXypHPPc0oJ1l9Hf6wWbiOL7Ik42cxnsUOhWiCB/fylKbKqqJalW9FgkNQCw16YO8uW9Hs0Iy1A==
 
-date-fns@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.4.1.tgz#b53f9bb65ae6bd9239437035710e01cf383b625e"
-  integrity sha512-2RhmH/sjDSCYW2F3ZQxOUx/I7PvzXpi89aQL2d3OAxSTwLx6NilATeUbe0menFE3Lu5lFkOFci36ivimwYHHxw==
-
 date-fns@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.6.0.tgz#a5bc82e6a4c3995ae124b0ba1a71aec7b8cbd666"
@@ -3027,10 +3022,10 @@ reactcss@^1.2.0:
   dependencies:
     lodash "^4.0.1"
 
-reactotron-core-ui@^1.0.0-beta.7:
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.7.tgz#cb2c12ba8c7a3b1c4a55162201c31d1fc765a769"
-  integrity sha512-/5CivURmO5TTNXq06403fTLRbtScEFWtKF5oo+Q2ujnZePEddgmZroQ4GfeTVrVgSqsl5CVZYWoMn5cF9FRDLA==
+reactotron-core-ui@^1.0.0-beta.10:
+  version "1.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.10.tgz#2fb3a5e1c65a88ef4b4defec419f193c9eab06b6"
+  integrity sha512-ISeDXTkS0+RhVO91Iw0wWZteu8EBsbH+B+B/vgd8BnRHxl8P2nYP8IqY13hsV/IQd3A/ByterxsY7s8gTmHRVg==
   dependencies:
     date-fns "^2.6.0"
     react "^16.11.0"
@@ -3038,6 +3033,7 @@ reactotron-core-ui@^1.0.0-beta.7:
     react-icons "^3.7.0"
     react-json-tree "^0.11.2"
     react-tooltip "^3.11.1"
+    stringify-object "^3.3.0"
     styled-components "^4.4.0"
 
 readable-stream@^2.0.0, readable-stream@^2.0.5, readable-stream@^2.1.4:
