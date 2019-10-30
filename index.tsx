@@ -1,4 +1,5 @@
 import { clipboard } from "electron";
+import fs from "fs";
 import { FlipperPlugin } from "flipper";
 import {
   theme,
@@ -18,15 +19,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.background};
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  background-color: ${props => props.theme.backgroundSubtleLight};
-  border-bottom: 1px solid ${props => props.theme.chromeLine};
-  color: ${props => props.theme.foregroundDark};
-  box-shadow: 0 0 30px ${props => props.theme.glow};
-  height: 70px;
 `;
 
 const TimelineContainer = styled.div`
@@ -88,6 +80,14 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                     key={idx}
                     command={command}
                     copyToClipboard={clipboard.writeText}
+                    readFile={path => {
+                      return new Promise((resolve, reject) => {
+                        fs.readFile(path, "utf-8", (err, data) => {
+                          if (err || !data) reject();
+                          else resolve(data);
+                        });
+                      });
+                    }}
                   />
                 );
               }
