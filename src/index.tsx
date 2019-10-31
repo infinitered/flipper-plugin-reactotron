@@ -1,17 +1,12 @@
-import { clipboard } from "electron";
-import fs from "fs";
-import { FlipperPlugin } from "flipper";
-import {
-  theme,
-  timelineCommandResolver,
-  Header,
-  repairSerialization
-} from "reactotron-core-ui";
-import styled, { ThemeProvider } from "styled-components";
-import { MdDeleteSweep } from "react-icons/md";
+import { clipboard } from "electron"
+import fs from "fs"
+import { FlipperPlugin } from "flipper"
+import { theme, timelineCommandResolver, Header, repairSerialization } from "reactotron-core-ui"
+import styled, { ThemeProvider } from "styled-components"
+import { MdDeleteSweep } from "react-icons/md"
 
-import logo from "./logo";
-import logo2 from "./logo2";
+import logo from "../logo"
+import logo2 from "../logo2"
 
 const Container = styled.div`
   display: flex;
@@ -19,12 +14,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.background};
-`;
+`
 
 const TimelineContainer = styled.div`
   flex: 1;
   overflow-y: scroll;
-`;
+`
 
 const FooterContainer = styled.div`
   display: flex;
@@ -35,35 +30,35 @@ const FooterContainer = styled.div`
   color: ${props => props.theme.foregroundDark};
   height: 35px;
   padding: 10px;
-`;
+`
 
 interface PersistedState {
-  commands: any[];
+  commands: any[]
 }
 
 export default class extends FlipperPlugin<never, never, PersistedState> {
-  static defaultPersistedState = { commands: [] };
+  static defaultPersistedState = { commands: [] }
 
   static persistedStateReducer(
     persistedState: PersistedState,
     method: string,
-    data: Object
+    data: Record<string, any>
   ): PersistedState {
     return {
-      commands: [repairSerialization(data), ...persistedState.commands]
-    };
+      commands: [repairSerialization(data), ...persistedState.commands],
+    }
   }
 
   handleSendCommand = (command: any) => {
-    this.client.call("sendReactotronCommand", command);
-  };
+    this.client.call("sendReactotronCommand", command)
+  }
 
   handlePress = () => {
     this.client.call("sendReactotronCommand", {
       type: "state.keys.request",
-      payload: { path: null }
-    });
-  };
+      payload: { path: null },
+    })
+  }
 
   render() {
     return (
@@ -77,14 +72,14 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                 icon: MdDeleteSweep,
                 onClick: () => {
                   // this.props.setPersistedState({ commands: [] });
-                  this.handlePress();
-                }
-              }
+                  this.handlePress()
+                },
+              },
             ]}
           />
           <TimelineContainer>
             {this.props.persistedState.commands.map((command, idx) => {
-              const CommandComponent = timelineCommandResolver(command.type);
+              const CommandComponent = timelineCommandResolver(command.type)
 
               if (CommandComponent) {
                 return (
@@ -95,17 +90,17 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                     readFile={path => {
                       return new Promise((resolve, reject) => {
                         fs.readFile(path, "utf-8", (err, data) => {
-                          if (err || !data) reject();
-                          else resolve(data);
-                        });
-                      });
+                          if (err || !data) reject(new Error("Something failed"))
+                          else resolve(data)
+                        })
+                      })
                     }}
                     sendCommand={this.handleSendCommand}
                   />
-                );
+                )
               }
 
-              return null;
+              return null
             })}
           </TimelineContainer>
           <FooterContainer>
@@ -113,6 +108,6 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
           </FooterContainer>
         </Container>
       </ThemeProvider>
-    );
+    )
   }
 }
