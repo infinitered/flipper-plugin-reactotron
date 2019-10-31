@@ -54,6 +54,17 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     };
   }
 
+  handleSendCommand = (command: any) => {
+    this.client.call("sendReactotronCommand", command);
+  };
+
+  handlePress = () => {
+    this.client.call("sendReactotronCommand", {
+      type: "state.keys.request",
+      payload: { path: null }
+    });
+  };
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -65,7 +76,8 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                 tip: "Clear",
                 icon: MdDeleteSweep,
                 onClick: () => {
-                  this.props.setPersistedState({ commands: [] });
+                  // this.props.setPersistedState({ commands: [] });
+                  this.handlePress();
                 }
               }
             ]}
@@ -88,6 +100,7 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                         });
                       });
                     }}
+                    sendCommand={this.handleSendCommand}
                   />
                 );
               }
