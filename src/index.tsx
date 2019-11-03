@@ -1,9 +1,15 @@
 import { clipboard } from "electron"
 import fs from "fs"
 import { FlipperPlugin } from "flipper"
-import { theme, timelineCommandResolver, Header, repairSerialization } from "reactotron-core-ui"
+import {
+  theme,
+  timelineCommandResolver,
+  Header,
+  repairSerialization,
+  filterCommands,
+} from "reactotron-core-ui"
 import styled, { ThemeProvider } from "styled-components"
-import { MdDeleteSweep } from "react-icons/md"
+import { MdSearch, MdDeleteSweep, MdVpnKey } from "react-icons/md"
 
 import logo from "../logo"
 import logo2 from "../logo2"
@@ -14,6 +20,28 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.background};
+`
+
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 4px;
+  padding-right: 10px;
+`
+const SearchLabel = styled.p`
+  padding: 0 10px;
+  font-size: 14px;
+  color: ${props => props.theme.foregroundDark};
+`
+const SearchInput = styled.input`
+  border-radius: 4px;
+  padding: 10px;
+  flex: 1;
+  background-color: ${props => props.theme.backgroundSubtleDark};
+  border: none;
+  color: ${props => props.theme.foregroundDark};
+  font-size: 14px;
 `
 
 const TimelineContainer = styled.div`
@@ -34,10 +62,12 @@ const FooterContainer = styled.div`
 
 interface PersistedState {
   commands: any[]
+  isSearchOpen: boolean
+  search: string
 }
 
 export default class extends FlipperPlugin<never, never, PersistedState> {
-  static defaultPersistedState = { commands: [] }
+  static defaultPersistedState = { commands: [], isSearchOpen: false }
 
   static persistedStateReducer(
     persistedState: PersistedState,
@@ -45,7 +75,11 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     data: Record<string, any>
   ): PersistedState {
     return {
-      commands: [repairSerialization(data), ...persistedState.commands],
+      ...persistedState,
+      commands: [
+        repairSerialization({ ...data, id: persistedState.commands.length }),
+        ...persistedState.commands,
+      ],
     }
   }
 
@@ -61,6 +95,11 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
   }
 
   render() {
+    const { commands, search, isSearchOpen } = this.props.persistedState
+
+    let filteredCommands = commands
+    if (search && search.length > 0) filteredCommands = filterCommands(commands, search)
+
     return (
       <ThemeProvider theme={theme}>
         <Container>
@@ -68,23 +107,49 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
             title="Timeline"
             actions={[
               {
-                tip: "Clear",
-                icon: MdDeleteSweep,
+                tip: "Search",
+                icon: MdSearch,
                 onClick: () => {
-                  // this.props.setPersistedState({ commands: [] });
+                  this.props.setPersistedState({
+                    isSearchOpen: !isSearchOpen,
+                  })
+                },
+              },
+              {
+                tip: "Show root keys",
+                icon: MdVpnKey,
+                onClick: () => {
                   this.handlePress()
                 },
               },
+              {
+                tip: "Clear",
+                icon: MdDeleteSweep,
+                onClick: () => {
+                  this.props.setPersistedState({ commands: [] })
+                },
+              },
             ]}
-          />
+          >
+            {isSearchOpen && (
+              <SearchContainer>
+                <SearchLabel>Search</SearchLabel>
+                <SearchInput
+                  value={this.props.persistedState.search}
+                  onChange={e => this.props.setPersistedState({ search: e.target.value })}
+                />
+              </SearchContainer>
+            )}
+          </Header>
           <TimelineContainer>
-            {this.props.persistedState.commands.map((command, idx) => {
+            {filteredCommands.map((command, idx) => {
+              console.log(command)
               const CommandComponent = timelineCommandResolver(command.type)
 
               if (CommandComponent) {
                 return (
                   <CommandComponent
-                    key={idx}
+                    key={command.id}
                     command={command}
                     copyToClipboard={clipboard.writeText}
                     readFile={path => {
