@@ -7,9 +7,11 @@ import {
   Header,
   repairSerialization,
   filterCommands,
+  TimelineFilterModal,
+  CommandType,
 } from "reactotron-core-ui"
 import styled, { ThemeProvider } from "styled-components"
-import { MdSearch, MdDeleteSweep, MdVpnKey } from "react-icons/md"
+import { MdSearch, MdDeleteSweep, MdVpnKey, MdFilterList } from "react-icons/md"
 
 import logo from "../logo"
 import logo2 from "../logo2"
@@ -64,10 +66,18 @@ interface PersistedState {
   commands: any[]
   isSearchOpen: boolean
   search: string
+  hiddenCommands: CommandType[]
+  isFilterModalOpen: boolean
 }
 
 export default class extends FlipperPlugin<never, never, PersistedState> {
-  static defaultPersistedState = { commands: [], isSearchOpen: false }
+  static defaultPersistedState = {
+    commands: [],
+    isSearchOpen: false,
+    search: "",
+    hiddenCommands: [],
+    isFilterModalOpen: false,
+  }
 
   static persistedStateReducer(
     persistedState: PersistedState,
@@ -95,10 +105,15 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
   }
 
   render() {
-    const { commands, search, isSearchOpen } = this.props.persistedState
+    const {
+      commands,
+      search,
+      isSearchOpen,
+      hiddenCommands,
+      isFilterModalOpen,
+    } = this.props.persistedState
 
-    let filteredCommands = commands
-    if (search && search.length > 0) filteredCommands = filterCommands(commands, search)
+    let filteredCommands = filterCommands(commands, search, hiddenCommands)
 
     return (
       <ThemeProvider theme={theme}>
@@ -120,6 +135,13 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
                 icon: MdVpnKey,
                 onClick: () => {
                   this.handlePress()
+                },
+              },
+              {
+                tip: "Filter",
+                icon: MdFilterList,
+                onClick: () => {
+                  this.props.setPersistedState({ isFilterModalOpen: true })
                 },
               },
               {
@@ -171,6 +193,16 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
           <FooterContainer>
             <img src={`data:image/png;base64, ${logo2}`} height={30} />
           </FooterContainer>
+          <TimelineFilterModal
+            isOpen={isFilterModalOpen}
+            onClose={() => {
+              this.props.setPersistedState({ isFilterModalOpen: false })
+            }}
+            hiddenCommands={hiddenCommands}
+            setHiddenCommands={hiddenCommands => {
+              this.props.setPersistedState({ hiddenCommands })
+            }}
+          />
         </Container>
       </ThemeProvider>
     )
