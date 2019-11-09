@@ -1,7 +1,7 @@
 {
   "name": "flipper-plugin-reactotron",
   "version": "1.0.0",
-  "main": "index.tsx",
+  "main": "src/index.tsx",
   "title": "Reactotron",
   "icon": "apps",
   "license": "MIT",
@@ -11,16 +11,64 @@
   "bugs": {
     "email": "you@example.com"
   },
+  "scripts": {
+    "lint": "eslint src --ext .ts,.tsx"
+  },
   "dependencies": {
-    "date-fns": "^2.4.1",
     "flipper": "latest",
     "react-icons": "^3.7.0",
     "react-json-tree": "^0.11.2",
+    "react-modal": "^3.11.1",
     "react-tooltip": "^3.11.1",
-    "reactotron-core-ui": "^1.0.0-beta.3",
+    "reactotron-core-ui": "^1.0.0-beta.10",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
-    "@types/styled-components": "^4.1.19"
+    "@types/styled-components": "^4.1.19",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "electron": "^7.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "6.4.0",
+    "eslint-config-standard": "14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "typescript": "^3.6.4"
+  },
+  "peerDependencies": {
+    "electron": "^6.0.12"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "standard",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "project": "./tsconfig.json"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": 0,
+      "no-undef": 0,
+      "space-before-function-paren": 0,
+      "@typescript-eslint/indent": 0,
+      "@typescript-eslint/explicit-member-accessibility": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/no-object-literal-type-assertion": 0,
+      "@typescript-eslint/no-empty-interface": 0,
+      "@typescript-eslint/no-var-requires": 0,
+      "@typescript-eslint/member-delimiter-style": 0,
+      "@typescript-eslint/no-unused-vars": 0
+    }
   }
 }
