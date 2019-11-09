@@ -3892,16 +3892,17 @@ reactcss@^1.2.0:
   dependencies:
     lodash "^4.0.1"
 
-reactotron-core-ui@^1.0.0-beta.10:
-  version "1.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.10.tgz#2fb3a5e1c65a88ef4b4defec419f193c9eab06b6"
-  integrity sha512-ISeDXTkS0+RhVO91Iw0wWZteu8EBsbH+B+B/vgd8BnRHxl8P2nYP8IqY13hsV/IQd3A/ByterxsY7s8gTmHRVg==
+reactotron-core-ui@^1.0.0-beta.13:
+  version "1.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.13.tgz#5ba98d4bdc50649f1b74613765aa9ba62ae0ab2b"
+  integrity sha512-QFzgdYtYLPSJe241fWljcOM8Wxc9iT38zHq/4rVruP2H8ukHQDLmnhif2i4pkg2jKL6YW97clxHcRULlwn9Riw==
   dependencies:
     date-fns "^2.6.0"
     react "^16.11.0"
     react-dom "^16.11.0"
     react-icons "^3.7.0"
     react-json-tree "^0.11.2"
+    react-modal "^3.11.1"
     react-tooltip "^3.11.1"
     stringify-object "^3.3.0"
     styled-components "^4.4.0"
