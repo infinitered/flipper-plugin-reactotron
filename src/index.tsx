@@ -4,6 +4,7 @@ import { theme, repairSerialization, CommandType } from "reactotron-core-ui"
 import styled, { ThemeProvider } from "styled-components"
 
 import Timeline from "./Timeline"
+import Subscriptions from "./Subscriptions"
 
 const Container = styled.div`
   display: flex;
@@ -15,15 +16,13 @@ const Container = styled.div`
 
 interface PersistedState {
   commands: any[]
-  search: string
-  hiddenCommands: CommandType[]
-  isFilterModalOpen: boolean
-  isTimelineReversed: boolean
+  onTab: "timeline" | "subscriptions"
 }
 
 export default class extends FlipperPlugin<never, never, PersistedState> {
   static defaultPersistedState = {
     commands: [],
+    onTab: "timeline",
   }
 
   static persistedStateReducer(
@@ -48,17 +47,31 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     this.props.setPersistedState({ commands: [] })
   }
 
+  handleChangeTab = (tab: "timeline" | "subscriptions") => {
+    this.props.setPersistedState({ onTab: tab })
+  }
+
   render() {
-    const { commands } = this.props.persistedState
+    const { commands, onTab } = this.props.persistedState
 
     return (
       <ThemeProvider theme={theme}>
         <Container>
-          <Timeline
-            commands={commands}
-            onSendCommand={this.handleSendCommand}
-            onClearCommands={this.handleClearCommands}
-          />
+          {onTab === "timeline" && (
+            <Timeline
+              commands={commands}
+              onSendCommand={this.handleSendCommand}
+              onClearCommands={this.handleClearCommands}
+              onChangeTab={this.handleChangeTab}
+            />
+          )}
+          {onTab === "subscriptions" && (
+            <Subscriptions
+              commands={commands}
+              onSendCommand={this.handleSendCommand}
+              onChangeTab={this.handleChangeTab}
+            />
+          )}
         </Container>
       </ThemeProvider>
     )

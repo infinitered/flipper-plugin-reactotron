@@ -1,14 +1,11 @@
 import React, { useState } from "react"
 import { clipboard } from "electron"
 import fs from "fs"
-import {
-  timelineCommandResolver,
-  Header,
-  filterCommands,
-  TimelineFilterModal,
-} from "reactotron-core-ui"
+import { timelineCommandResolver, filterCommands, TimelineFilterModal } from "reactotron-core-ui"
 import styled from "styled-components"
 import { MdSearch, MdDeleteSweep, MdVpnKey, MdFilterList, MdSwapVert } from "react-icons/md"
+
+import Header from "./Header"
 
 import logo2 from "../logo2"
 
@@ -54,9 +51,10 @@ interface Props {
   commands: any[]
   onSendCommand: (command: any) => void
   onClearCommands: () => void
+  onChangeTab: (tab: "timeline" | "subscriptions") => void
 }
 
-function Timeline({ commands, onSendCommand, onClearCommands }: Props) {
+function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Props) {
   // TODO: Switch to a reducer
   // TODO: Persist some of these (like if the timeline is reversed) and load when we mount.
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -115,6 +113,8 @@ function Timeline({ commands, onSendCommand, onClearCommands }: Props) {
             },
           },
         ]}
+        onTab="timeline"
+        onChangeTab={onChangeTab}
       >
         {isSearchOpen && (
           <SearchContainer>
