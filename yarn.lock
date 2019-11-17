@@ -3982,10 +3982,10 @@ reactcss@^1.2.0:
   dependencies:
     lodash "^4.0.1"
 
-reactotron-core-ui@^1.0.0-beta.15:
-  version "1.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.15.tgz#d7d5942a2f663b2fa67985d1aaea8dc48d1c1c68"
-  integrity sha512-vnLGbEBD95L/QTVxeBL/XxYNxg2e4GxiN+Dsk2UPwbvSeyWt+J8ho1E4Xh6Nprig0zUy9ouDc5NrY+nM9q5pFA==
+reactotron-core-ui@^1.0.0-beta.17:
+  version "1.0.0-beta.17"
+  resolved "https://registry.yarnpkg.com/reactotron-core-ui/-/reactotron-core-ui-1.0.0-beta.17.tgz#220a8a280a6218cb29c84b3cf3717feda4e83615"
+  integrity sha512-G8QbB8I2/QwE87Z6YAZb0oeq9yukazdkX0bn9DHl39qs0xfxXLnVdAyXT1Cb/omsqI3NRvQ5Zc08vCF36+GvhA==
   dependencies:
     color-interpolate "^1.0.5"
     date-fns "^2.6.0"
