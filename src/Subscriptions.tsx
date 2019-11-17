@@ -5,6 +5,11 @@ import styled from "styled-components"
 
 import Header from "./Header"
 
+const SubscriptionsContainer = styled.div`
+  flex: 1;
+  overflow-y: scroll;
+`
+
 const SubscriptionContainer = styled.div`
   display: flex;
   padding: 15px 20px;
@@ -126,24 +131,26 @@ function Subscriptions({ commands, onSendCommand, onChangeTab }: Props) {
         onTab="subscriptions"
         onChangeTab={onChangeTab}
       />
-      {subscriptionValues.map(subscription => {
-        const value =
-          typeof subscription.value === "object"
-            ? { value: subscription.value }
-            : subscription.value
+      <SubscriptionsContainer>
+        {subscriptionValues.map(subscription => {
+          const value =
+            typeof subscription.value === "object"
+              ? { value: subscription.value }
+              : subscription.value
 
-        return (
-          <SubscriptionContainer key={`subscription-${subscription.path}`}>
-            <SubscriptionPath>{subscription.path}</SubscriptionPath>
-            <SubscriptionValue>
-              <ContentView value={value} />
-            </SubscriptionValue>
-            <SubscriptionRemove>
-              <MdDelete size={24} onClick={() => removeSubscription(subscription.path)} />
-            </SubscriptionRemove>
-          </SubscriptionContainer>
-        )
-      })}
+          return (
+            <SubscriptionContainer key={`subscription-${subscription.path}`}>
+              <SubscriptionPath>{subscription.path}</SubscriptionPath>
+              <SubscriptionValue>
+                <ContentView value={value} />
+              </SubscriptionValue>
+              <SubscriptionRemove>
+                <MdDelete size={24} onClick={() => removeSubscription(subscription.path)} />
+              </SubscriptionRemove>
+            </SubscriptionContainer>
+          )
+        })}
+      </SubscriptionsContainer>
       <SubscriptionAddModal
         isOpen={isAddModalOpen}
         onClose={() => {

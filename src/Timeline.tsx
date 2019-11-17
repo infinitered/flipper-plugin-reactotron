@@ -7,8 +7,6 @@ import { MdSearch, MdDeleteSweep, MdVpnKey, MdFilterList, MdSwapVert } from "rea
 
 import Header from "./Header"
 
-import logo2 from "../logo2"
-
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
@@ -34,17 +32,6 @@ const SearchInput = styled.input`
 const TimelineContainer = styled.div`
   flex: 1;
   overflow-y: scroll;
-`
-
-const FooterContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  background-color: ${props => props.theme.backgroundSubtleLight};
-  border-top: 1px solid ${props => props.theme.chromeLine};
-  color: ${props => props.theme.foregroundDark};
-  height: 35px;
-  padding: 10px;
 `
 
 interface Props {
@@ -149,9 +136,6 @@ function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Pro
           return null
         })}
       </TimelineContainer>
-      <FooterContainer>
-        <img src={`data:image/png;base64, ${logo2}`} height={30} />
-      </FooterContainer>
       <TimelineFilterModal
         isOpen={isFilterModalOpen}
         onClose={() => {

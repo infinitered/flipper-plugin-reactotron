@@ -1,10 +1,13 @@
 import React from "react"
 import { FlipperPlugin } from "flipper"
-import { theme, repairSerialization, CommandType } from "reactotron-core-ui"
+import { theme, repairSerialization } from "reactotron-core-ui"
 import styled, { ThemeProvider } from "styled-components"
 
 import Timeline from "./Timeline"
 import Subscriptions from "./Subscriptions"
+
+
+import logo from "../logo"
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +15,17 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.background};
+`
+
+const FooterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: ${props => props.theme.backgroundSubtleLight};
+  border-top: 1px solid ${props => props.theme.chromeLine};
+  color: ${props => props.theme.foregroundDark};
+  height: 35px;
+  padding: 10px;
 `
 
 interface PersistedState {
@@ -72,6 +86,9 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
               onChangeTab={this.handleChangeTab}
             />
           )}
+          <FooterContainer>
+        <img src={`data:image/png;base64, ${logo}`} height={30} />
+      </FooterContainer>
         </Container>
       </ThemeProvider>
     )
