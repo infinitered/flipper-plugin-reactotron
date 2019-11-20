@@ -1,7 +1,12 @@
-import React, { useState } from "react"
+import React, { FunctionComponent } from "react"
 import { clipboard } from "electron"
 import fs from "fs"
-import { timelineCommandResolver, filterCommands, TimelineFilterModal } from "reactotron-core-ui"
+import {
+  timelineCommandResolver,
+  filterCommands,
+  TimelineFilterModal,
+  CommandType,
+} from "reactotron-core-ui"
 import styled from "styled-components"
 import { MdSearch, MdDeleteSweep, MdVpnKey, MdFilterList, MdSwapVert } from "react-icons/md"
 
@@ -39,20 +44,40 @@ interface Props {
   onSendCommand: (command: any) => void
   onClearCommands: () => void
   onChangeTab: (tab: "timeline" | "subscriptions") => void
+  // Timeline Handler things
+  isSearchOpen: boolean
+  toggleSearch: () => void
+  search: string
+  setSearch: (search: string) => void
+  isFilterOpen: boolean
+  openFilter: () => void
+  closeFilter: () => void
+  isReversed: boolean
+  toggleReverse: () => void
+  hiddenCommands: CommandType[]
+  setHiddenCommands: (hiddenCommands: CommandType[]) => void
 }
 
-function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Props) {
-  // TODO: Switch to a reducer
-  // TODO: Persist some of these (like if the timeline is reversed) and load when we mount.
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
-  const [isTimelineReversed, setIsTimelineReversed] = useState(false)
-  const [hiddenCommands, setHiddenCommands] = useState([])
-  const [search, setSearch] = useState("")
-
+const Timeline: FunctionComponent<Props> = ({
+  commands,
+  onSendCommand,
+  onClearCommands,
+  onChangeTab,
+  isSearchOpen,
+  toggleSearch,
+  search,
+  setSearch,
+  isFilterOpen,
+  openFilter,
+  closeFilter,
+  isReversed,
+  toggleReverse,
+  hiddenCommands,
+  setHiddenCommands,
+}) => {
   let filteredCommands = filterCommands(commands, search, hiddenCommands)
 
-  if (isTimelineReversed) {
+  if (isReversed) {
     filteredCommands = filteredCommands.reverse()
   }
 
@@ -65,7 +90,7 @@ function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Pro
             tip: "Search",
             icon: MdSearch,
             onClick: () => {
-              setIsSearchOpen(!isSearchOpen)
+              toggleSearch()
             },
           },
           {
@@ -82,14 +107,14 @@ function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Pro
             tip: "Filter",
             icon: MdFilterList,
             onClick: () => {
-              setIsFilterModalOpen(true)
+              openFilter()
             },
           },
           {
             tip: "Reverse Order",
             icon: MdSwapVert,
             onClick: () => {
-              setIsTimelineReversed(!isTimelineReversed)
+              toggleReverse()
             },
           },
           {
@@ -111,7 +136,7 @@ function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Pro
         )}
       </Header>
       <TimelineContainer>
-        {filteredCommands.map((command, idx) => {
+        {filteredCommands.map(command => {
           const CommandComponent = timelineCommandResolver(command.type)
 
           if (CommandComponent) {
@@ -137,9 +162,9 @@ function Timeline({ commands, onSendCommand, onClearCommands, onChangeTab }: Pro
         })}
       </TimelineContainer>
       <TimelineFilterModal
-        isOpen={isFilterModalOpen}
+        isOpen={isFilterOpen}
         onClose={() => {
-          setIsFilterModalOpen(false)
+          closeFilter()
         }}
         hiddenCommands={hiddenCommands}
         setHiddenCommands={setHiddenCommands}
