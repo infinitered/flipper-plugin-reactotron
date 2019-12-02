@@ -5,6 +5,7 @@ import {
   timelineCommandResolver,
   filterCommands,
   TimelineFilterModal,
+  DispatchActionModal,
   CommandType,
 } from "reactotron-core-ui"
 import styled from "styled-components"
@@ -52,6 +53,10 @@ interface Props {
   isFilterOpen: boolean
   openFilter: () => void
   closeFilter: () => void
+  isDispatchOpen: boolean
+  dispatchInitialAction: string
+  openDispatch: () => void
+  closeDispatch: () => void
   isReversed: boolean
   toggleReverse: () => void
   hiddenCommands: CommandType[]
@@ -70,6 +75,10 @@ const Timeline: FunctionComponent<Props> = ({
   isFilterOpen,
   openFilter,
   closeFilter,
+  isDispatchOpen,
+  dispatchInitialAction,
+  openDispatch,
+  closeDispatch,
   isReversed,
   toggleReverse,
   hiddenCommands,
@@ -79,6 +88,13 @@ const Timeline: FunctionComponent<Props> = ({
 
   if (isReversed) {
     filteredCommands = filteredCommands.reverse()
+  }
+
+  const dispatchAction = (action: any) => {
+    onSendCommand({
+      type: "state.action.dispatch",
+      payload: { action },
+    })
   }
 
   return (
@@ -154,6 +170,8 @@ const Timeline: FunctionComponent<Props> = ({
                   })
                 }}
                 sendCommand={onSendCommand}
+                dispatchAction={dispatchAction}
+                openDispatchDialog={openDispatch}
               />
             )
           }
@@ -168,6 +186,14 @@ const Timeline: FunctionComponent<Props> = ({
         }}
         hiddenCommands={hiddenCommands}
         setHiddenCommands={setHiddenCommands}
+      />
+      <DispatchActionModal
+        isOpen={isDispatchOpen}
+        initialValue={dispatchInitialAction}
+        onClose={() => {
+          closeDispatch()
+        }}
+        onDispatchAction={dispatchAction}
       />
     </>
   )

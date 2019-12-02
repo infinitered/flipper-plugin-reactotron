@@ -79,6 +79,21 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     }
   }
 
+  init() {
+    this.toggleScrollbar(false)
+  }
+
+  componentWillUnmount() {
+    this.toggleScrollbar(true)
+  }
+
+  toggleScrollbar = (show: boolean) => {
+    const flipperSidebar = document.getElementById("detailsSidebar")
+    if (flipperSidebar) {
+      flipperSidebar.style.overflow = show ? "scroll" : "hidden"
+    }
+  }
+
   handleSendCommand = (command: any) => {
     this.client.call("sendReactotronCommand", command)
   }

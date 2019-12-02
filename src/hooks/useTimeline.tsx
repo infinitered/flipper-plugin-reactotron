@@ -10,6 +10,8 @@ interface TimelineState {
   isSearchOpen: boolean
   search: string
   isFilterOpen: boolean
+  isDispatchOpen: boolean
+  dispatchInitialAction: string
   isReversed: boolean
   hiddenCommands: CommandType[]
 }
@@ -21,6 +23,8 @@ interface TimelineAction {
     | "SEARCH_SET"
     | "FILTER_OPEN"
     | "FILTER_CLOSE"
+    | "DISPATCH_OPEN"
+    | "DISPATCH_CLOSE"
     | "ORDER_REVERSE"
     | "ORDER_REGULAR"
     | "HIDDENCOMMANDS_SET"
@@ -39,6 +43,10 @@ function timelineReducer(state: TimelineState, action: TimelineAction) {
       return { ...state, isFilterOpen: true }
     case "FILTER_CLOSE":
       return { ...state, isFilterOpen: false }
+    case "DISPATCH_OPEN":
+      return { ...state, isDispatchOpen: true, dispatchInitialAction: action.payload as string }
+    case "DISPATCH_CLOSE":
+      return { ...state, isDispatchOpen: false }
     case "ORDER_REVERSE":
       return { ...state, isReversed: true }
     case "ORDER_REGULAR":
@@ -55,6 +63,8 @@ function useTimeline() {
     isSearchOpen: false,
     search: "",
     isFilterOpen: false,
+    isDispatchOpen: false,
+    dispatchInitialAction: "",
     isReversed: false,
     hiddenCommands: [],
   })
@@ -100,6 +110,19 @@ function useTimeline() {
     })
   }
 
+  const openDispatch = (action: string = "") => {
+    dispatch({
+      type: "DISPATCH_OPEN",
+      payload: action,
+    })
+  }
+
+  const closeDispatch = () => {
+    dispatch({
+      type: "DISPATCH_CLOSE",
+    })
+  }
+
   const toggleReverse = () => {
     const isReversed = !state.isReversed
 
@@ -127,6 +150,10 @@ function useTimeline() {
     isFilterOpen: state.isFilterOpen,
     openFilter,
     closeFilter,
+    isDispatchOpen: state.isDispatchOpen,
+    dispatchInitialAction: state.dispatchInitialAction,
+    openDispatch,
+    closeDispatch,
     isReversed: state.isReversed,
     toggleReverse,
     hiddenCommands: state.hiddenCommands,

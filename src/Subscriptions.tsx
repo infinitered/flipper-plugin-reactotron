@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react"
+import React from "react"
 import { SubscriptionAddModal, CommandType, ContentView } from "reactotron-core-ui"
 import { MdDelete, MdAdd, MdDeleteSweep } from "react-icons/md"
 import styled from "styled-components"
@@ -33,25 +33,6 @@ const SubscriptionRemove = styled.div`
   padding-left: 10px;
   color: ${props => props.theme.foreground};
 `
-interface Action {
-  type: "ADD_SUBSCRIPTION" | "REMOVE_SUBSCRIPTION" | "CLEAR_SUBSCRIPTIONS"
-  payload?: string
-}
-
-function subscriptionsReducer(state: string[], action: Action) {
-  switch (action.type) {
-    case "ADD_SUBSCRIPTION":
-      return [...state, action.payload]
-    case "REMOVE_SUBSCRIPTION":
-      const idx = state.indexOf(action.payload)
-
-      return [...state.slice(0, idx), ...state.slice(idx + 1)]
-    case "CLEAR_SUBSCRIPTIONS":
-      return []
-    default:
-      return state
-  }
-}
 
 function getLatestChanges(commands: any[]) {
   const changeCommands = commands.filter(c => c.type === CommandType.StateValuesChange)
@@ -61,51 +42,28 @@ function getLatestChanges(commands: any[]) {
 
 interface Props {
   commands: any[]
-  onSendCommand: (commands: any) => void
   onChangeTab: (tab: "timeline" | "subscriptions") => void
+  // Subscription Handler things
+  subscriptions: string[]
+  addSubscription: (path: string) => void
+  removeSubscription: (path: string) => void
+  clearSubscriptions: () => void
+  isAddOpen: boolean
+  openAddModal: () => void
+  closeAddModal: () => void
 }
 
-function Subscriptions({ commands, onSendCommand, onChangeTab }: Props) {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  // TODO: Consider converting this whole thing to a custom hook and get it out of this file.
-  const [subscriptions, dispatch] = useReducer(subscriptionsReducer, [])
-
-  const addSubscription = (path: string) => {
-    if (subscriptions.indexOf(path) > -1) return
-
-    // TODO: Handle "*"s (ref core-server)
-
-    dispatch({
-      type: "ADD_SUBSCRIPTION",
-      payload: path,
-    })
-    setIsAddModalOpen(false)
-  }
-  const removeSubscription = (path: string) => {
-    const pathLocation = subscriptions.indexOf(path)
-
-    if (pathLocation === -1) return
-
-    dispatch({
-      type: "REMOVE_SUBSCRIPTION",
-      payload: path,
-    })
-  }
-  const clearSubscriptions = () => {
-    dispatch({
-      type: "CLEAR_SUBSCRIPTIONS",
-    })
-  }
-
+function Subscriptions({
+  commands,
+  onChangeTab,
+  addSubscription,
+  removeSubscription,
+  clearSubscriptions,
+  isAddOpen,
+  openAddModal,
+  closeAddModal,
+}: Props) {
   const subscriptionValues = getLatestChanges(commands)
-
-  // TODO: Stop forcing this through and actually track subscriptions
-  useEffect(() => {
-    onSendCommand({
-      type: "state.values.subscribe",
-      payload: { paths: subscriptions },
-    })
-  }, [subscriptions])
 
   // TODO: Handle Empty!
   return (
@@ -117,7 +75,7 @@ function Subscriptions({ commands, onSendCommand, onChangeTab }: Props) {
             tip: "Add",
             icon: MdAdd,
             onClick: () => {
-              setIsAddModalOpen(true)
+              openAddModal()
             },
           },
           {
@@ -152,9 +110,9 @@ function Subscriptions({ commands, onSendCommand, onChangeTab }: Props) {
         })}
       </SubscriptionsContainer>
       <SubscriptionAddModal
-        isOpen={isAddModalOpen}
+        isOpen={isAddOpen}
         onClose={() => {
-          setIsAddModalOpen(false)
+          closeAddModal()
         }}
         onAddSubscription={addSubscription}
       />

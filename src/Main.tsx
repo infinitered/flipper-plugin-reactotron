@@ -3,6 +3,7 @@ import { theme } from "reactotron-core-ui"
 import styled, { ThemeProvider } from "styled-components"
 
 import useTimeline from "./hooks/useTimeline"
+import useSubscriptions from "./hooks/useSubscriptions"
 import Timeline from "./Timeline"
 import Subscriptions from "./Subscriptions"
 
@@ -43,6 +44,7 @@ const Main: FunctionComponent<Props> = ({
   onChangeTab,
 }) => {
   const timelineHandler = useTimeline()
+  const subscriptionsHandler = useSubscriptions(onSendCommand)
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,8 +61,8 @@ const Main: FunctionComponent<Props> = ({
         {onTab === "subscriptions" && (
           <Subscriptions
             commands={commands}
-            onSendCommand={onSendCommand}
             onChangeTab={onChangeTab}
+            {...subscriptionsHandler}
           />
         )}
         <FooterContainer>
