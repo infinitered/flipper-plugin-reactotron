@@ -11,12 +11,8 @@ interface PersistedState {
 
 const objectFromChanges = (changes: any[]) => (
   changes.reduce((obj, change) => (
-    { ...obj, ...objectFromSubscriptionPair(change) }
+    { ...obj, [change.path]: change.value }
   ), {})
-)
-
-const objectFromSubscriptionPair = (pair: Record<string, string>) => (
-  { [pair.path]: pair.value }
 )
 
 const compareChanges = (newChange: any, oldChange: any) => {
