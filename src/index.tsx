@@ -34,8 +34,7 @@ const compareChanges = (newChange: any, oldChange: any) => {
     const newChangeValues = JSON.stringify(newChange[key]) || ""
     const oldChangeValues = JSON.stringify(oldChange[key]) || ""
 
-    if ((newChangeValues.length - oldChangeValues.length != 0)
-      || newChangeValues !== oldChangeValues) {
+    if (newChangeValues !== oldChangeValues) {
       return {
         changed: { [key]: newChange[key] }
       }
