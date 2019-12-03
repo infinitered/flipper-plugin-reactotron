@@ -9,15 +9,30 @@ interface PersistedState {
   onTab: "timeline" | "subscriptions"
 }
 
-const compareChanges = (newChange, oldChange) => {
+const objectFromChanges = (changes: any[]) => (
+  changes.reduce((obj, change) => (
+    { ...obj, ...objectFromSubscriptionPair(change) }
+  ), {})
+)
+
+const objectFromSubscriptionPair = (pair: Record<string, string>) => (
+  { [pair.path]: pair.value }
+)
+
+const compareChanges = (newChange: any, oldChange: any) => {
   for (let key in oldChange) {
     if (!(key in newChange)) {
-      return { removed: oldChange }
+      return {
+        removed: { [key]: oldChange[key] }
+      }
     }
   }
+
   for (let key in newChange) {
     if (!(key in oldChange)) {
-      return { added: newChange }
+      return {
+        added: { [key]: newChange[key] }
+      }
     }
 
     const newChangeValues = JSON.stringify(newChange[key]) || ""
@@ -25,34 +40,29 @@ const compareChanges = (newChange, oldChange) => {
 
     if ((newChangeValues.length - oldChangeValues.length != 0)
       || newChangeValues !== oldChangeValues) {
-      return { changed: newChange }
+      return {
+        changed: { [key]: newChange[key] }
+      }
     }
   }
   return null
 }
 
-const rewriteChangesSinceLastStateSubscription = (state, data) => {
+const rewriteChangesSinceLastStateSubscription = (state: PersistedState, data: Record<string, any>) => {
   if (data.type != "state.values.change") {
     return
   }
 
-  const objectFromSubscriptionPair = (pair: {}) => {
-    let obj = {}
-    obj[pair["path"]] = pair["value"]
-    return obj
-  }
-
-  let oldChange = []
-  const newChange = data["payload"]["changes"].map(change => objectFromSubscriptionPair(change))
+  let oldChange = {}
+  const newChange = objectFromChanges(data["payload"]["changes"])
   const changeCommands = state.commands.filter(command => command.type === "state.values.change")
 
   if (changeCommands.length) {
     const latestChange = changeCommands[0]
-    oldChange = latestChange["payload"]["changes"].map(change => objectFromSubscriptionPair(change))
+    oldChange = objectFromChanges(latestChange["payload"]["changes"])
   }
 
   const diff = compareChanges(newChange, oldChange)
-
   data["payload"] = { ...data["payload"], ...diff }
 }
 
@@ -68,12 +78,13 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     data: Record<string, any>
   ): PersistedState {
 
-    rewriteChangesSinceLastStateSubscription(persistedState, data)
+    const deserializedData = repairSerialization(data)
+    rewriteChangesSinceLastStateSubscription(persistedState, deserializedData)
 
     return {
       ...persistedState,
       commands: [
-        repairSerialization({ ...data, id: persistedState.commands.length }),
+        { ...deserializedData, id: persistedState.commands.length },
         ...persistedState.commands,
       ],
     }
