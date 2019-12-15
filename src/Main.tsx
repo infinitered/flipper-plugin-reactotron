@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react"
-import { theme } from "reactotron-core-ui"
-import styled, { ThemeProvider } from "styled-components"
+import { ReactotronProvider } from "reactotron-core-ui"
+import styled from "styled-components"
 
 import useTimeline from "./hooks/useTimeline"
 import useSubscriptions from "./hooks/useSubscriptions"
@@ -47,7 +47,7 @@ const Main: FunctionComponent<Props> = ({
   const subscriptionsHandler = useSubscriptions(onSendCommand)
 
   return (
-    <ThemeProvider theme={theme}>
+    <ReactotronProvider>
       <Container>
         {onTab === "timeline" && (
           <Timeline
@@ -69,7 +69,7 @@ const Main: FunctionComponent<Props> = ({
           <img src={`data:image/png;base64, ${logo}`} height={30} />
         </FooterContainer>
       </Container>
-    </ThemeProvider>
+    </ReactotronProvider>
   )
 }
 
