@@ -9,6 +9,58 @@ interface PersistedState {
   onTab: "timeline" | "subscriptions"
 }
 
+const objectFromChanges = (changes: any[]) => (
+  changes.reduce((obj, change) => (
+    { ...obj, [change.path]: change.value }
+  ), {})
+)
+
+const compareChanges = (newChange: any, oldChange: any) => {
+  for (let key in oldChange) {
+    if (!(key in newChange)) {
+      return {
+        removed: { [key]: oldChange[key] }
+      }
+    }
+  }
+
+  for (let key in newChange) {
+    if (!(key in oldChange)) {
+      return {
+        added: { [key]: newChange[key] }
+      }
+    }
+
+    const newChangeValues = JSON.stringify(newChange[key]) || ""
+    const oldChangeValues = JSON.stringify(oldChange[key]) || ""
+
+    if (newChangeValues !== oldChangeValues) {
+      return {
+        changed: { [key]: newChange[key] }
+      }
+    }
+  }
+  return null
+}
+
+const rewriteChangesSinceLastStateSubscription = (state: PersistedState, data: Record<string, any>) => {
+  if (data.type != "state.values.change") {
+    return
+  }
+
+  let oldChange = {}
+  const newChange = objectFromChanges(data["payload"]["changes"])
+  const changeCommands = state.commands.filter(command => command.type === "state.values.change")
+
+  if (changeCommands.length) {
+    const latestChange = changeCommands[0]
+    oldChange = objectFromChanges(latestChange["payload"]["changes"])
+  }
+
+  const diff = compareChanges(newChange, oldChange)
+  data["payload"] = { ...data["payload"], ...diff }
+}
+
 export default class extends FlipperPlugin<never, never, PersistedState> {
   static defaultPersistedState = {
     commands: [],
@@ -20,10 +72,14 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     method: string,
     data: Record<string, any>
   ): PersistedState {
+
+    const deserializedData = repairSerialization(data)
+    rewriteChangesSinceLastStateSubscription(persistedState, deserializedData)
+
     return {
       ...persistedState,
       commands: [
-        repairSerialization({ ...data, id: persistedState.commands.length }),
+        { ...deserializedData, id: persistedState.commands.length },
         ...persistedState.commands,
       ],
     }
