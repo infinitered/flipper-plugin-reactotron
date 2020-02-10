@@ -1,13 +1,12 @@
 import React, { FunctionComponent } from "react"
-import { ReactotronProvider } from "reactotron-core-ui"
+import { ReactotronAppProvider } from "reactotron-core-ui"
 import styled from "styled-components"
 
-import useTimeline from "./hooks/useTimeline"
-import useSubscriptions from "./hooks/useSubscriptions"
 import Timeline from "./Timeline"
 import Subscriptions from "./Subscriptions"
 
 import logo from "../logo"
+import ReactotronBrain from "./ReactotronBrain"
 
 const Container = styled.div`
   display: flex;
@@ -43,33 +42,23 @@ const Main: FunctionComponent<Props> = ({
   onClearCommands,
   onChangeTab,
 }) => {
-  const timelineHandler = useTimeline()
-  const subscriptionsHandler = useSubscriptions(onSendCommand)
-
   return (
-    <ReactotronProvider>
-      <Container>
-        {onTab === "timeline" && (
-          <Timeline
-            commands={commands}
-            onSendCommand={onSendCommand}
-            onClearCommands={onClearCommands}
-            onChangeTab={onChangeTab}
-            {...timelineHandler}
-          />
-        )}
-        {onTab === "subscriptions" && (
-          <Subscriptions
-            commands={commands}
-            onChangeTab={onChangeTab}
-            {...subscriptionsHandler}
-          />
-        )}
-        <FooterContainer>
-          <img src={`data:image/png;base64, ${logo}`} height={30} />
-        </FooterContainer>
-      </Container>
-    </ReactotronProvider>
+    <ReactotronAppProvider>
+      <ReactotronBrain
+        commands={commands}
+        sendCommand={onSendCommand}
+        clearCommands={onClearCommands}
+        addCommandListener={() => {}}
+      >
+        <Container>
+          {onTab === "timeline" && <Timeline onChangeTab={onChangeTab} />}
+          {onTab === "subscriptions" && <Subscriptions onChangeTab={onChangeTab} />}
+          <FooterContainer>
+            <img src={`data:image/png;base64, ${logo}`} height={30} />
+          </FooterContainer>
+        </Container>
+      </ReactotronBrain>
+    </ReactotronAppProvider>
   )
 }
 

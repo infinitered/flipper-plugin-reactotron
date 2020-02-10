@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useContext } from "react"
 import { clipboard } from "electron"
 import fs from "fs"
 import {
@@ -6,10 +6,19 @@ import {
   filterCommands,
   TimelineFilterModal,
   DispatchActionModal,
-  CommandType,
+  EmptyState,
+  ReactotronContext,
+  TimelineContext,
 } from "reactotron-core-ui"
+import {
+  MdSearch,
+  MdDeleteSweep,
+  MdFilterList,
+  MdSwapVert,
+  MdReorder,
+  MdVpnKey,
+} from "react-icons/md"
 import styled from "styled-components"
-import { MdSearch, MdDeleteSweep, MdVpnKey, MdFilterList, MdSwapVert } from "react-icons/md"
 
 import Header from "./Header"
 
@@ -41,49 +50,33 @@ const TimelineContainer = styled.div`
 `
 
 interface Props {
-  commands: any[]
-  onSendCommand: (command: any) => void
-  onClearCommands: () => void
   onChangeTab: (tab: "timeline" | "subscriptions") => void
-  // Timeline Handler things
-  isSearchOpen: boolean
-  toggleSearch: () => void
-  search: string
-  setSearch: (search: string) => void
-  isFilterOpen: boolean
-  openFilter: () => void
-  closeFilter: () => void
-  isDispatchOpen: boolean
-  dispatchInitialAction: string
-  openDispatch: () => void
-  closeDispatch: () => void
-  isReversed: boolean
-  toggleReverse: () => void
-  hiddenCommands: CommandType[]
-  setHiddenCommands: (hiddenCommands: CommandType[]) => void
 }
 
-const Timeline: FunctionComponent<Props> = ({
-  commands,
-  onSendCommand,
-  onClearCommands,
-  onChangeTab,
-  isSearchOpen,
-  toggleSearch,
-  search,
-  setSearch,
-  isFilterOpen,
-  openFilter,
-  closeFilter,
-  isDispatchOpen,
-  dispatchInitialAction,
-  openDispatch,
-  closeDispatch,
-  isReversed,
-  toggleReverse,
-  hiddenCommands,
-  setHiddenCommands,
-}) => {
+const Timeline: FunctionComponent<Props> = ({ onChangeTab }) => {
+  const {
+    sendCommand,
+    clearCommands,
+    commands,
+    openDispatchModal,
+    closeDispatchModal,
+    isDispatchModalOpen,
+    dispatchModalInitialAction,
+  } = useContext(ReactotronContext)
+  const {
+    isSearchOpen,
+    toggleSearch,
+    setSearch,
+    search,
+    isReversed,
+    toggleReverse,
+    openFilter,
+    closeFilter,
+    isFilterOpen,
+    hiddenCommands,
+    setHiddenCommands,
+  } = useContext(TimelineContext)
+
   let filteredCommands = filterCommands(commands, search, hiddenCommands)
 
   if (isReversed) {
@@ -91,10 +84,7 @@ const Timeline: FunctionComponent<Props> = ({
   }
 
   const dispatchAction = (action: any) => {
-    onSendCommand({
-      type: "state.action.dispatch",
-      payload: { action },
-    })
+    sendCommand("state.action.dispatch", { action })
   }
 
   return (
@@ -113,10 +103,7 @@ const Timeline: FunctionComponent<Props> = ({
             tip: "Show root keys",
             icon: MdVpnKey,
             onClick: () => {
-              onSendCommand({
-                type: "state.keys.request",
-                payload: { path: null },
-              })
+              sendCommand("state.keys.request", { path: null })
             },
           },
           {
@@ -137,7 +124,7 @@ const Timeline: FunctionComponent<Props> = ({
             tip: "Clear",
             icon: MdDeleteSweep,
             onClick: () => {
-              onClearCommands()
+              clearCommands()
             },
           },
         ]}
@@ -152,32 +139,38 @@ const Timeline: FunctionComponent<Props> = ({
         )}
       </Header>
       <TimelineContainer>
-        {filteredCommands.map(command => {
-          const CommandComponent = timelineCommandResolver(command.type)
+        {filteredCommands.length === 0 ? (
+          <EmptyState icon={MdReorder} title="No Activity">
+            Once your app connects and starts sending events, they will appear here.
+          </EmptyState>
+        ) : (
+          filteredCommands.map(command => {
+            const CommandComponent = timelineCommandResolver(command.type)
 
-          if (CommandComponent) {
-            return (
-              <CommandComponent
-                key={command.id}
-                command={command}
-                copyToClipboard={clipboard.writeText}
-                readFile={path => {
-                  return new Promise((resolve, reject) => {
-                    fs.readFile(path, "utf-8", (err, data) => {
-                      if (err || !data) reject(new Error("Something failed"))
-                      else resolve(data)
+            if (CommandComponent) {
+              return (
+                <CommandComponent
+                  key={command.id}
+                  command={command}
+                  copyToClipboard={clipboard.writeText}
+                  readFile={path => {
+                    return new Promise((resolve, reject) => {
+                      fs.readFile(path, "utf-8", (err, data) => {
+                        if (err || !data) reject(new Error("Something failed"))
+                        else resolve(data)
+                      })
                     })
-                  })
-                }}
-                sendCommand={onSendCommand}
-                dispatchAction={dispatchAction}
-                openDispatchDialog={openDispatch}
-              />
-            )
-          }
+                  }}
+                  sendCommand={command => sendCommand(command.type, command.payload)}
+                  dispatchAction={dispatchAction}
+                  openDispatchDialog={openDispatchModal}
+                />
+              )
+            }
 
-          return null
-        })}
+            return null
+          })
+        )}
       </TimelineContainer>
       <TimelineFilterModal
         isOpen={isFilterOpen}
@@ -188,12 +181,13 @@ const Timeline: FunctionComponent<Props> = ({
         setHiddenCommands={setHiddenCommands}
       />
       <DispatchActionModal
-        isOpen={isDispatchOpen}
-        initialValue={dispatchInitialAction}
+        isOpen={isDispatchModalOpen}
+        initialValue={dispatchModalInitialAction}
         onClose={() => {
-          closeDispatch()
+          closeDispatchModal()
         }}
         onDispatchAction={dispatchAction}
+        isDarwin={window.process.platform === "darwin"}
       />
     </>
   )

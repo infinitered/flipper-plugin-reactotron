@@ -1,6 +1,13 @@
-import React from "react"
-import { SubscriptionAddModal, CommandType, ContentView } from "reactotron-core-ui"
-import { MdDelete, MdAdd, MdDeleteSweep } from "react-icons/md"
+import React, { useContext } from "react"
+import {
+  ReactotronContext,
+  CommandType,
+  ContentView,
+  EmptyState,
+  StateContext,
+  SubscriptionAddModal,
+} from "reactotron-core-ui"
+import { MdDelete, MdAdd, MdDeleteSweep, MdNotificationsNone } from "react-icons/md"
 import styled from "styled-components"
 
 import Header from "./Header"
@@ -41,28 +48,18 @@ function getLatestChanges(commands: any[]) {
 }
 
 interface Props {
-  commands: any[]
   onChangeTab: (tab: "timeline" | "subscriptions") => void
-  // Subscription Handler things
-  subscriptions: string[]
-  addSubscription: (path: string) => void
-  removeSubscription: (path: string) => void
-  clearSubscriptions: () => void
-  isAddOpen: boolean
-  openAddModal: () => void
-  closeAddModal: () => void
 }
 
-function Subscriptions({
-  commands,
-  onChangeTab,
-  addSubscription,
-  removeSubscription,
-  clearSubscriptions,
-  isAddOpen,
-  openAddModal,
-  closeAddModal,
-}: Props) {
+function Subscriptions({ onChangeTab }: Props) {
+  const {
+    commands,
+    openSubscriptionModal,
+    isSubscriptionModalOpen,
+    closeSubscriptionModal,
+  } = useContext(ReactotronContext)
+  const { addSubscription, removeSubscription, clearSubscriptions } = useContext(StateContext)
+
   const subscriptionValues = getLatestChanges(commands)
 
   // TODO: Handle Empty!
@@ -75,7 +72,7 @@ function Subscriptions({
             tip: "Add",
             icon: MdAdd,
             onClick: () => {
-              openAddModal()
+              openSubscriptionModal()
             },
           },
           {
@@ -90,31 +87,48 @@ function Subscriptions({
         onChangeTab={onChangeTab}
       />
       <SubscriptionsContainer>
-        {subscriptionValues.map(subscription => {
-          const value =
-            typeof subscription.value === "object"
-              ? { value: subscription.value }
-              : subscription.value
+        {subscriptionValues.length === 0 ? (
+          <EmptyState icon={MdNotificationsNone} title="No Subscriptions">
+            {/* You can subscribe to state changes in your redux or mobx-state-tree store by pressing{" "}
+            {subscriptionModalSequence && (
+              <KeybindKeys
+                keybind={subscriptionModalKeybind}
+                sequence={subscriptionModalSequence}
+                addWidth={false}
+              />
+            )} */}
+          </EmptyState>
+        ) : (
+          subscriptionValues.map(subscription => {
+            const value =
+              typeof subscription.value === "object"
+                ? { value: subscription.value }
+                : subscription.value
 
-          return (
-            <SubscriptionContainer key={`subscription-${subscription.path}`}>
-              <SubscriptionPath>{subscription.path}</SubscriptionPath>
-              <SubscriptionValue>
-                <ContentView value={value} />
-              </SubscriptionValue>
-              <SubscriptionRemove>
-                <MdDelete size={24} onClick={() => removeSubscription(subscription.path)} />
-              </SubscriptionRemove>
-            </SubscriptionContainer>
-          )
-        })}
+            return (
+              <SubscriptionContainer key={`subscription-${subscription.path}`}>
+                <SubscriptionPath>{subscription.path}</SubscriptionPath>
+                <SubscriptionValue>
+                  <ContentView value={value} />
+                </SubscriptionValue>
+                <SubscriptionRemove>
+                  <MdDelete size={24} onClick={() => removeSubscription(subscription.path)} />
+                </SubscriptionRemove>
+              </SubscriptionContainer>
+            )
+          })
+        )}
       </SubscriptionsContainer>
       <SubscriptionAddModal
-        isOpen={isAddOpen}
+        isOpen={isSubscriptionModalOpen}
         onClose={() => {
-          closeAddModal()
+          closeSubscriptionModal()
         }}
-        onAddSubscription={addSubscription}
+        onAddSubscription={(path: string) => {
+          // TODO: Get this out of here.
+          closeSubscriptionModal()
+          addSubscription(path)
+        }}
       />
     </>
   )
