@@ -47,6 +47,21 @@ const SearchInput = styled.input`
 const TimelineContainer = styled.div`
   flex: 1;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border: 0px;
+    border-radius: 0px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(128, 128, 128, 0.25) !important;
+    border-radius: 4px;
+  }
 `
 
 interface Props {
