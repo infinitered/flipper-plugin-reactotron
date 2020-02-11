@@ -30,7 +30,7 @@ const FooterContainer = styled.div`
 interface Props {
   commands: any[]
   onTab: "timeline" | "subscriptions"
-  onSendCommand: (command: any) => void
+  onSendCommand: (type: string, payload: any, clientId?: string) => void
   onClearCommands: () => void
   onChangeTab: (tab: "timeline" | "subscriptions") => void
 }

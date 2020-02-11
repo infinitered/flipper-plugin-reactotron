@@ -9,17 +9,14 @@ interface PersistedState {
   onTab: "timeline" | "subscriptions"
 }
 
-const objectFromChanges = (changes: any[]) => (
-  changes.reduce((obj, change) => (
-    { ...obj, [change.path]: change.value }
-  ), {})
-)
+const objectFromChanges = (changes: any[]) =>
+  changes.reduce((obj, change) => ({ ...obj, [change.path]: change.value }), {})
 
 const compareChanges = (newChange: any, oldChange: any) => {
   for (let key in oldChange) {
     if (!(key in newChange)) {
       return {
-        removed: { [key]: oldChange[key] }
+        removed: { [key]: oldChange[key] },
       }
     }
   }
@@ -27,7 +24,7 @@ const compareChanges = (newChange: any, oldChange: any) => {
   for (let key in newChange) {
     if (!(key in oldChange)) {
       return {
-        added: { [key]: newChange[key] }
+        added: { [key]: newChange[key] },
       }
     }
 
@@ -36,14 +33,17 @@ const compareChanges = (newChange: any, oldChange: any) => {
 
     if (newChangeValues !== oldChangeValues) {
       return {
-        changed: { [key]: newChange[key] }
+        changed: { [key]: newChange[key] },
       }
     }
   }
   return null
 }
 
-const rewriteChangesSinceLastStateSubscription = (state: PersistedState, data: Record<string, any>) => {
+const rewriteChangesSinceLastStateSubscription = (
+  state: PersistedState,
+  data: Record<string, any>
+) => {
   if (data.type != "state.values.change") {
     return
   }
@@ -72,7 +72,6 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     method: string,
     data: Record<string, any>
   ): PersistedState {
-
     const deserializedData = repairSerialization(data)
     rewriteChangesSinceLastStateSubscription(persistedState, deserializedData)
 
@@ -100,8 +99,8 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     }
   }
 
-  handleSendCommand = (command: any) => {
-    this.client.call("sendReactotronCommand", command)
+  handleSendCommand = (type: string, payload: any) => {
+    this.client.call("sendReactotronCommand", { type, payload })
   }
 
   handleClearCommands = () => {
