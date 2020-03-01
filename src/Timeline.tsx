@@ -176,7 +176,7 @@ const Timeline: FunctionComponent<Props> = ({ onChangeTab }) => {
                       })
                     })
                   }}
-                  sendCommand={command => sendCommand(command.type, command.payload)}
+                  sendCommand={sendCommand}
                   dispatchAction={dispatchAction}
                   openDispatchDialog={openDispatchModal}
                 />

@@ -22,7 +22,7 @@
     "react-modal": "3.11.1",
     "react-motion": "0.5.2",
     "react-tooltip": "3.11.1",
-    "reactotron-core-ui": "2.0.0-beta.3",
+    "reactotron-core-ui": "2.0.0-beta.4",
     "styled-components": "4.4.0"
   },
   "devDependencies": {
