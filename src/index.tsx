@@ -13,7 +13,7 @@ const objectFromChanges = (changes: any[]) =>
   changes.reduce((obj, change) => ({ ...obj, [change.path]: change.value }), {})
 
 const compareChanges = (newChange: any, oldChange: any) => {
-  for (let key in oldChange) {
+  for (const key in oldChange) {
     if (!(key in newChange)) {
       return {
         removed: { [key]: oldChange[key] },
@@ -21,7 +21,7 @@ const compareChanges = (newChange: any, oldChange: any) => {
     }
   }
 
-  for (let key in newChange) {
+  for (const key in newChange) {
     if (!(key in oldChange)) {
       return {
         added: { [key]: newChange[key] },
@@ -44,21 +44,21 @@ const rewriteChangesSinceLastStateSubscription = (
   state: PersistedState,
   data: Record<string, any>
 ) => {
-  if (data.type != "state.values.change") {
+  if (data.type !== "state.values.change") {
     return
   }
 
   let oldChange = {}
-  const newChange = objectFromChanges(data["payload"]["changes"])
+  const newChange = objectFromChanges(data.payload.changes)
   const changeCommands = state.commands.filter(command => command.type === "state.values.change")
 
   if (changeCommands.length) {
     const latestChange = changeCommands[0]
-    oldChange = objectFromChanges(latestChange["payload"]["changes"])
+    oldChange = objectFromChanges(latestChange.payload.changes)
   }
 
   const diff = compareChanges(newChange, oldChange)
-  data["payload"] = { ...data["payload"], ...diff }
+  data.payload = { ...data.payload, ...diff }
 }
 
 export default class extends FlipperPlugin<never, never, PersistedState> {
