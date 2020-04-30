@@ -1,7 +1,10 @@
 {
+  "$schema": "https://fbflipper.com/schemas/plugin-package/v2.json",
   "name": "flipper-plugin-reactotron",
+  "id": "flipper-plugin-reactotron",
   "version": "1.0.0",
-  "main": "src/index.tsx",
+  "main": "dist/bundle.js",
+  "flipperBundlerEntry": "src/index.tsx",
   "title": "Reactotron",
   "icon": "apps",
   "license": "MIT",
@@ -15,11 +18,11 @@
     "lint": "eslint src --ext .ts,.tsx",
     "ci:lint": "yarn lint",
     "ci:publish": "yarn semantic-release",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "prepack": "flipper-pkg lint && flipper-pkg bundle"
   },
   "dependencies": {
     "color-interpolate": "1.0.5",
-    "flipper": "latest",
     "react-icons": "3.7.0",
     "react-json-tree": "0.11.2",
     "react-modal": "3.11.1",
@@ -29,8 +32,8 @@
     "styled-components": "4.4.0"
   },
   "devDependencies": {
-    "@types/styled-components": "4.1.19",
     "@semantic-release/git": "9.0.0",
+    "@types/styled-components": "4.1.19",
     "@typescript-eslint/eslint-plugin": "2.6.0",
     "@typescript-eslint/parser": "2.6.0",
     "electron": "7.0.0",
@@ -41,12 +44,15 @@
     "eslint-plugin-node": "10.0.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
-    "semantic-release": "16.0.4",
+    "flipper": "latest",
+    "flipper-pkg": "latest",
     "prettier": "1.19.1",
+    "semantic-release": "16.0.4",
     "typescript": "3.6.4"
   },
   "peerDependencies": {
-    "electron": "^6.0.12"
+    "electron": "^6.0.12",
+    "flipper": "latest"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
