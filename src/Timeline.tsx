@@ -17,6 +17,7 @@ import {
   MdSwapVert,
   MdReorder,
   MdVpnKey,
+  MdSend,
 } from "react-icons/md"
 import styled from "styled-components"
 
@@ -112,6 +113,13 @@ const Timeline: FunctionComponent<Props> = ({ onChangeTab }) => {
             icon: MdSearch,
             onClick: () => {
               toggleSearch()
+            },
+          },
+          {
+            tip: "Dispatch Action",
+            icon: MdSend,
+            onClick: () => {
+              openDispatchModal("")
             },
           },
           {
