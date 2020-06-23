@@ -41,11 +41,11 @@
     "eslint-plugin-node": "10.0.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
-    "semantic-release": "16.0.4",
-    "prettier": "1.19.1",
-    "typescript": "3.6.4",
     "flipper": "latest",
-    "flipper-pkg": "latest"
+    "flipper-pkg": "latest",
+    "prettier": "1.19.1",
+    "semantic-release": "16.0.4",
+    "typescript": "3.6.4"
   },
   "peerDependencies": {
     "electron": "^6.0.12",
