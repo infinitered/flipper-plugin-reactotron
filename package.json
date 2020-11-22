@@ -40,7 +40,7 @@
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-node": "10.0.0",
     "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
+    "eslint-plugin-standard": "4.1.0",
     "flipper": "latest",
     "flipper-pkg": "latest",
     "prettier": "1.19.1",
