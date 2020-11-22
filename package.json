@@ -43,7 +43,7 @@
     "eslint-plugin-standard": "4.1.0",
     "flipper": "latest",
     "flipper-pkg": "latest",
-    "prettier": "1.19.1",
+    "prettier": "2.2.0",
     "semantic-release": "16.0.4",
     "typescript": "3.9.7"
   },
