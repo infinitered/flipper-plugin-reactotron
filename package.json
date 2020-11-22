@@ -45,7 +45,7 @@
     "flipper-pkg": "latest",
     "prettier": "1.19.1",
     "semantic-release": "16.0.4",
-    "typescript": "3.6.4"
+    "typescript": "3.9.7"
   },
   "peerDependencies": {
     "electron": "^6.0.12",
