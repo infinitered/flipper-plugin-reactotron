@@ -4853,7 +4853,7 @@ flipper-pkg-lib@0.66.0:
     metro "^0.63.0"
     metro-minify-terser "^0.63.0"
 
-flipper-pkg@^0.66.0:
+flipper-pkg@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper-pkg/-/flipper-pkg-0.66.0.tgz#39191504c84425a7155e23d389473c2c114fe8d0"
   integrity sha512-pbruxRmBqAUoYpOcujElxgfzDu866WEONLkqk6YESFrJz7gRA3x9V08a4FE5N9kcxGM99E+dcRH2KPu0ujFvCg==
@@ -4901,7 +4901,7 @@ flipper-plugin@0.66.0:
   dependencies:
     react-element-to-jsx-string "^14.3.2"
 
-flipper@^0.66.0:
+flipper@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper/-/flipper-0.66.0.tgz#2df87bbfbdf7950971c4e917c1871a50f0180c07"
   integrity sha512-VrA5d1FsfqTPJ/skIML20DK17MAxinfwUqw5WnS4cMqsV3uVwdxrTuqoDqNkHZeybtrSt95J4a9fI776j4U8+g==
@@ -9454,12 +9454,11 @@ react-test-renderer@^17.0.1:
     react-shallow-renderer "^16.13.1"
     scheduler "^0.20.1"
 
-react-tooltip@3.11.1:
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.11.1.tgz#7b4ce48ed26a46e996662b19a2afebbfd483513b"
-  integrity sha512-YCMVlEC2KuHIzOQhPplTK5jmBBwoL+PYJJdJKXj7M/h7oevupd/QSVq6z5U7/ehIGXyHsAqvwpdxexDfyQ0o3A==
+react-tooltip@3.11.6:
+  version "3.11.6"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.11.6.tgz#4f9735a2a4aa50580af351ce23e74a56f41afc0c"
+  integrity sha512-nTc1yHHaPCHHURvMpf/VNF17pIZiU4zwUGFJBUVr1fZkezFC7E0VPMMVrCfDjt+IpwTHICyzlyx+1FiQ7lw5LQ==
   dependencies:
-    classnames "^2.2.5"
     prop-types "^15.6.0"
 
 react-transition-group@^4.4.1:
