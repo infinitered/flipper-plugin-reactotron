@@ -4853,7 +4853,7 @@ flipper-pkg-lib@0.66.0:
     metro "^0.63.0"
     metro-minify-terser "^0.63.0"
 
-flipper-pkg@^0.66.0:
+flipper-pkg@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper-pkg/-/flipper-pkg-0.66.0.tgz#39191504c84425a7155e23d389473c2c114fe8d0"
   integrity sha512-pbruxRmBqAUoYpOcujElxgfzDu866WEONLkqk6YESFrJz7gRA3x9V08a4FE5N9kcxGM99E+dcRH2KPu0ujFvCg==
@@ -4901,7 +4901,7 @@ flipper-plugin@0.66.0:
   dependencies:
     react-element-to-jsx-string "^14.3.2"
 
-flipper@^0.66.0:
+flipper@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper/-/flipper-0.66.0.tgz#2df87bbfbdf7950971c4e917c1871a50f0180c07"
   integrity sha512-VrA5d1FsfqTPJ/skIML20DK17MAxinfwUqw5WnS4cMqsV3uVwdxrTuqoDqNkHZeybtrSt95J4a9fI776j4U8+g==
@@ -10152,10 +10152,10 @@ seek-bzip@^1.0.5:
   dependencies:
     commander "^2.8.1"
 
-semantic-release@17.2.4:
-  version "17.2.4"
-  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.2.4.tgz#b1e18644a5be51a4ee681172fc3c3bb05fe0322a"
-  integrity sha512-NcYFT+duzg+eE57s9lZYRRkxzyiXGvwFdPvS4U+8TYo+vb0UZpQuFi63hFgoLAOF4lo5yj2v79GsG9hDC66EQw==
+semantic-release@17.3.0:
+  version "17.3.0"
+  resolved "https://registry.yarnpkg.com/semantic-release/-/semantic-release-17.3.0.tgz#121252b5bb6acc1048d7657111173b03d47502c5"
+  integrity sha512-enhDayMZRP4nWcWAMBFHHB7THRaIcRdUAZv3lxd65pXs2ttzay7IeCvRRrGayRWExtnY0ulwRz5Ycp88Dv/UeQ==
   dependencies:
     "@semantic-release/commit-analyzer" "^8.0.0"
     "@semantic-release/error" "^2.2.0"
