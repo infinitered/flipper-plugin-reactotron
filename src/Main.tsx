@@ -48,6 +48,7 @@ const Main: FunctionComponent<Props> = ({
         commands={commands}
         sendCommand={onSendCommand}
         clearCommands={onClearCommands}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         addCommandListener={() => {}}
       >
         <Container>

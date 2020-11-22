@@ -2,7 +2,7 @@
   "$schema": "https://fbflipper.com/schemas/plugin-package/v2.json",
   "name": "flipper-plugin-reactotron",
   "id": "flipper-plugin-reactotron",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/bundle.js",
   "flipperBundlerEntry": "src/index.tsx",
   "title": "Reactotron",
@@ -11,9 +11,6 @@
   "keywords": [
     "flipper-plugin"
   ],
-  "bugs": {
-    "email": "you@example.com"
-  },
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
     "ci:lint": "yarn lint",
@@ -32,23 +29,23 @@
     "styled-components": "4.4.0"
   },
   "devDependencies": {
+    "@types/styled-components": "5.1.4",
     "@semantic-release/git": "9.0.0",
-    "@types/styled-components": "4.1.19",
-    "@typescript-eslint/eslint-plugin": "2.6.0",
-    "@typescript-eslint/parser": "2.6.0",
+    "@typescript-eslint/eslint-plugin": "4.8.1",
+    "@typescript-eslint/parser": "4.8.1",
     "electron": "7.0.0",
-    "eslint": "6.6.0",
-    "eslint-config-prettier": "6.4.0",
-    "eslint-config-standard": "14.1.0",
-    "eslint-plugin-import": "2.18.2",
-    "eslint-plugin-node": "10.0.0",
+    "eslint": "7.14.0",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-config-standard": "16.0.2",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
+    "eslint-plugin-standard": "4.1.0",
     "flipper": "latest",
     "flipper-pkg": "latest",
-    "prettier": "1.19.1",
-    "semantic-release": "16.0.4",
-    "typescript": "3.6.4"
+    "prettier": "2.2.0",
+    "semantic-release": "17.2.4",
+    "typescript": "4.1.2"
   },
   "peerDependencies": {
     "electron": "^6.0.12",
@@ -73,6 +70,7 @@
     "rules": {
       "no-unused-vars": 0,
       "no-undef": 0,
+      "no-use-before-define": 0,
       "space-before-function-paren": 0,
       "@typescript-eslint/indent": 0,
       "@typescript-eslint/explicit-member-accessibility": 0,
