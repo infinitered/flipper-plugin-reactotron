@@ -4312,10 +4312,10 @@ eslint-plugin-promise@4.2.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.2.1.tgz#845fd8b2260ad8f82564c1222fce44ad71d9418a"
   integrity sha512-VoM09vT7bfA7D+upt+FjeBO5eHIJQBUWki1aPvB+vbNiHS3+oGIJGIeyBtKQTME6UPXXy3vV07OL1tHd3ANuDw==
 
-eslint-plugin-standard@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-4.1.0.tgz#0c3bf3a67e853f8bbbc580fb4945fbf16f41b7c5"
-  integrity sha512-ZL7+QRixjTR6/528YNGyDotyffm5OQst/sGxKDwGb9Uqs4In5Egi4+jbobhqJoyoCM6/7v/1A5fhQ7ScMtDjaQ==
+eslint-plugin-standard@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-5.0.0.tgz#c43f6925d669f177db46f095ea30be95476b1ee4"
+  integrity sha512-eSIXPc9wBM4BrniMzJRBm2uoVuXz2EPa+NXPk2+itrVt+r5SbKFERx/IgrK/HmfjddyKVz2f+j+7gBRvu19xLg==
 
 eslint-scope@^5.0.0:
   version "5.0.0"
@@ -4853,7 +4853,7 @@ flipper-pkg-lib@0.66.0:
     metro "^0.63.0"
     metro-minify-terser "^0.63.0"
 
-flipper-pkg@^0.66.0:
+flipper-pkg@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper-pkg/-/flipper-pkg-0.66.0.tgz#39191504c84425a7155e23d389473c2c114fe8d0"
   integrity sha512-pbruxRmBqAUoYpOcujElxgfzDu866WEONLkqk6YESFrJz7gRA3x9V08a4FE5N9kcxGM99E+dcRH2KPu0ujFvCg==
@@ -4901,7 +4901,7 @@ flipper-plugin@0.66.0:
   dependencies:
     react-element-to-jsx-string "^14.3.2"
 
-flipper@^0.66.0:
+flipper@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper/-/flipper-0.66.0.tgz#2df87bbfbdf7950971c4e917c1871a50f0180c07"
   integrity sha512-VrA5d1FsfqTPJ/skIML20DK17MAxinfwUqw5WnS4cMqsV3uVwdxrTuqoDqNkHZeybtrSt95J4a9fI776j4U8+g==
