@@ -4853,7 +4853,7 @@ flipper-pkg-lib@0.66.0:
     metro "^0.63.0"
     metro-minify-terser "^0.63.0"
 
-flipper-pkg@^0.66.0:
+flipper-pkg@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper-pkg/-/flipper-pkg-0.66.0.tgz#39191504c84425a7155e23d389473c2c114fe8d0"
   integrity sha512-pbruxRmBqAUoYpOcujElxgfzDu866WEONLkqk6YESFrJz7gRA3x9V08a4FE5N9kcxGM99E+dcRH2KPu0ujFvCg==
@@ -4901,7 +4901,7 @@ flipper-plugin@0.66.0:
   dependencies:
     react-element-to-jsx-string "^14.3.2"
 
-flipper@^0.66.0:
+flipper@latest:
   version "0.66.0"
   resolved "https://registry.yarnpkg.com/flipper/-/flipper-0.66.0.tgz#2df87bbfbdf7950971c4e917c1871a50f0180c07"
   integrity sha512-VrA5d1FsfqTPJ/skIML20DK17MAxinfwUqw5WnS4cMqsV3uVwdxrTuqoDqNkHZeybtrSt95J4a9fI776j4U8+g==
@@ -9338,12 +9338,10 @@ react-element-to-jsx-string@^14.3.1, react-element-to-jsx-string@^14.3.2:
     "@base2/pretty-print-object" "1.0.0"
     is-plain-object "3.0.1"
 
-react-icons@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.7.0.tgz#64fe46231fabfeea27895edeae6c3b78114b8c8f"
-  integrity sha512-7MyPwjIhuyW0D2N3s4DEd0hGPGFf0sK+IIRKhc1FvSpZNVmnUoGvHbmAwzGJU+3my+fvihVWgwU5SDtlAri56Q==
-  dependencies:
-    camelcase "^5.0.0"
+react-icons@4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.1.0.tgz#9ca9bcbf2e3aee8e86e378bb9d465842947bbfc3"
+  integrity sha512-FCXBg1JbbR0vWALXIxmFAfozHdVIJmmwCD81Jk0EKOt7Ax4AdBNcaRkWhR0NaKy9ugJgoY3fFvo0PHpte55pXg==
 
 react-inspector@^5.1.0:
   version "5.1.0"
