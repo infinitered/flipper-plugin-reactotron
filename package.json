@@ -20,13 +20,13 @@
   },
   "dependencies": {
     "color-interpolate": "1.0.5",
-    "react-icons": "3.7.0",
-    "react-json-tree": "0.11.2",
-    "react-modal": "3.11.1",
+    "react-icons": "4.1.0",
+    "react-json-tree": "0.13.0",
+    "react-modal": "3.12.1",
     "react-motion": "0.5.2",
-    "react-tooltip": "3.11.1",
+    "react-tooltip": "4.2.11",
     "reactotron-core-ui": "2.0.0",
-    "styled-components": "4.4.0"
+    "styled-components": "5.2.1"
   },
   "devDependencies": {
     "@semantic-release/git": "9.0.0",
