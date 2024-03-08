@@ -72,7 +72,7 @@ export default class extends FlipperPlugin<never, never, PersistedState> {
     method: string,
     data: Record<string, any>
   ): PersistedState {
-    const deserializedData = repairSerialization(data)
+    const deserializedData = repairSerialization(JSON.parse(JSON.stringify(data)))
     rewriteChangesSinceLastStateSubscription(persistedState, deserializedData)
 
     return {
